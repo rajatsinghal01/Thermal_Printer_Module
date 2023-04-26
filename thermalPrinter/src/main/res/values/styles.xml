@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="toolbarstyle" parent="@style/Theme.AppCompat.NoActionBar" >
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:homeAsUpIndicator">@drawable/baseline_arrow_back_24</item>
+    </style>
+</resources>

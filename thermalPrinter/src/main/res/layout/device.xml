@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/cardView"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1"
+            android:weightSum="3"
+            >
+            <TextView
+                android:id="@+id/tv_device_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/tv_pairStatus"
+                android:layout_toEndOf="@+id/tv_pairStatus"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:text="Device Name"
+                android:textSize="18dp"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/tv_pairStatus"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tv_address"
+                android:text="Not Paired"
+                android:textSize="14dp"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout1"
+            android:text="Bluetooth Address"
+            />
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

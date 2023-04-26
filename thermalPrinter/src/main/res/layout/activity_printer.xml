@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrinterActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="#64bc4e"
+        android:id="@+id/toolbar"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Print Receipt"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:fontFamily="@font/montserrat"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+
+            />
+    </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:id="@+id/LinearLayout1"
+        >
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/printer"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Printer Details : "
+            android:textColor="#000000"
+            android:textSize="22dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/open_sans_semibold"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/LinearLayout2"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Printer:"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/open_sans"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HP Thermal Printer"
+            android:textColor="#000000"
+            android:id="@+id/tv_printer_name"
+            android:ellipsize="end"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/open_sans"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@id/LinearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:id="@+id/LinearLayout3"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status : "
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/open_sans"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disconnected"
+            android:textColor="#000000"
+            android:id="@+id/tv_printer_status"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/open_sans"
+
+            />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LinearLayout3"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFFFFF"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/print_button_selector"
+        android:text="Connect" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_connect"
+        android:text="Analysis Report"
+        android:textSize="22dp"
+        android:gravity="center_horizontal"
+        android:fontFamily="@font/open_sans_semibold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"
+        android:padding="3dp"
+        android:id="@+id/tv_details"
+        />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LinearLayout4"
+                    android:layout_below="@+id/tv_details"
+                    android:layout_alignParentStart="true"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    >
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        app:boxBackgroundColor="#FFFFFF"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="#64bc4e"
+                        app:boxStrokeWidth="1dp"
+                        app:hintTextColor="@color/background_color"
+                        app:startIconTint="#0FFFFFFF"
+                        app:placeholderText="ex : SpecX Pro"
+                        app:startIconTintMode="screen"
+                        app:startIconScaleType="centerInside"
+                        >
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/TextInputEditText_deviceName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:hint="Device Name"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColor="#000000"
+                            android:textSize="17dp"
+                            android:ellipsize="end"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        app:boxBackgroundColor="#FFFFFF"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="#64bc4e"
+                        app:boxStrokeWidth="1dp"
+                        app:hintTextColor="@color/background_color"
+                        app:placeholderText="ex: IU4XZSD"
+                        android:layout_weight="1"
+                        app:startIconTint="#0FFFFFFF"
+                        app:startIconTintMode="screen"
+                        app:startIconScaleType="centerCrop"
+
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/TextInputEditText_deviceID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:hint="Device ID"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColor="#000000"
+                            android:textSize="17dp"
+                            android:ellipsize="end"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout5"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/LinearLayout4"
+                android:layout_alignParentStart="true"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                    app:startIconTint="#0FFFFFFF"
+                    app:placeholderText="ex : Pioneer"
+                    app:startIconTintMode="screen"
+                    app:startIconScaleType="centerInside"
+                    >
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/TextInputEditText_clientName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/open_sans"
+                        android:hint="Client Name"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="17dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                    android:layout_weight="1"
+                    app:placeholderText="ex : Wheat"
+                    app:startIconDrawable="@drawable/commoditylogo"
+                    app:startIconTint="#0FFFFFFF"
+                    app:startIconTintMode="screen"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/TextInputEditText_Commodity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/open_sans"
+                        android:hint="Commodity Name"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="17dp"
+                        android:ellipsize="end"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sampleID_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/LinearLayout5"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:placeholderText="ex : PB03AP-0156"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                  >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/TextInputEditText_sampleID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/open_sans"
+                        android:hint="Sample ID"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="17dp"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout6"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/sampleID_layout"
+                android:layout_alignParentStart="true"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                    app:placeholderText="ex : 11.42"
+                    app:startIconDrawable="@drawable/waterdrop"
+                    app:startIconTint="#0FFFFFFF"
+                    app:startIconTintMode="screen"
+                    app:startIconScaleType="centerInside"
+                            >
+                    <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/TextInputEditText_moisture"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/open_sans"
+                                android:hint="Moisture"
+                                android:textSize="17dp"
+                                android:padding="10dp"
+                                android:inputType="numberDecimal"
+                                android:drawableEnd="@drawable/percentage"
+                                android:textColor="#000000" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                    app:placeholderText="ex: 62.75"
+                    android:layout_weight="1"
+                    app:startIconDrawable="@drawable/fiberlogo"
+                    app:startIconTint="#0FFFFFFF"
+                    app:startIconTintMode="screen"
+                    app:startIconScaleType="centerCrop"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/open_sans"
+                                android:textColor="#000000"
+                                android:textSize="17dp"
+                                android:padding="10dp"
+                                android:id="@+id/TextInputEditText_starch"
+                                android:inputType="numberDecimal"
+                                android:drawableEnd="@drawable/percentage"
+                                android:hint="Starch" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout7"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/LinearLayout6"
+                android:layout_alignParentStart="true"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                    app:placeholderText="ex : 9.28"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/TextInputEditText_gluten"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/open_sans"
+                        android:hint="Gluten"
+                        android:textSize="17dp"
+                        android:padding="10dp"
+                        android:inputType="numberDecimal"
+                        android:drawableEnd="@drawable/percentage"
+                        android:textColor="#000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#64bc4e"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@color/background_color"
+                    app:placeholderText="ex: 3.09"
+                    android:layout_weight="1"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/open_sans"
+                        android:textColor="#000000"
+                        android:textSize="17dp"
+                        android:padding="10dp"
+                        android:id="@+id/TextInputEditText_dryGluten"
+                        android:inputType="numberDecimal"
+                        android:drawableEnd="@drawable/percentage"
+                        android:hint="Dry Gluten" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LinearLayout7"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_Print"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+        android:text="Print"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/print_button_selector"
+        />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
