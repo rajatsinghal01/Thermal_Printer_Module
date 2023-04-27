@@ -3,10 +3,12 @@ package com.agnext.thermalprinter
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
@@ -18,15 +20,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.registerReceiver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.agnext.thermalprinter.PrintData.Companion.bluetoothAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class Bluetooth_activity : AppCompatActivity(){
@@ -37,7 +38,9 @@ class Bluetooth_activity : AppCompatActivity(){
     private var isBluetoothConnectPermissionGranted = false
     private var isBluetoothAdvertisePermissionGranted = false
     private var isFineLocationPermissionGranted = false
+    private var isBackgroundLocationPermissionGranted = false
     private var isCoarseLocationPermissionGranted = false
+    private var isrecieverRegistered = false
 
 
     var bluetoothAdapter : BluetoothAdapter?=null
@@ -54,11 +57,14 @@ class Bluetooth_activity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bluetooth)
-
         init()
         scan_for_bluetooth()
         bt = ArrayList(bluetoothAdapter!!.bondedDevices)
-        scan_for_devices()
+        CoroutineScope(Dispatchers.Main).launch {
+            async {
+                scan_for_devices()
+            }.await()
+        }
         set=HashSet(bt)
         adapter = BluetoothConnectAdapter(this,bt!!)
         recyclerView!!.layoutManager=LinearLayoutManager(this)
@@ -75,7 +81,7 @@ class Bluetooth_activity : AppCompatActivity(){
                     set!!.add(device)
                     adapter!!.notifyDataSetChanged()
                 }
-
+                isrecieverRegistered=false
                 recyclerView!!.visibility=View.VISIBLE
                 progressBar!!.visibility=View.GONE
             }
@@ -86,8 +92,9 @@ class Bluetooth_activity : AppCompatActivity(){
 
         isBluetoothPermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH)==PackageManager.PERMISSION_GRANTED
         isBluetoothScanPermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_SCAN)==PackageManager.PERMISSION_GRANTED
-//        isBluetoothAdvertisePermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_ADVERTISE)==PackageManager.PERMISSION_GRANTED
+        isBluetoothAdvertisePermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_ADVERTISE)==PackageManager.PERMISSION_GRANTED
         isBluetoothConnectPermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_CONNECT)==PackageManager.PERMISSION_GRANTED
+//        isBackgroundLocationPermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION)==PackageManager.PERMISSION_GRANTED
         isFineLocationPermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED
         isCoarseLocationPermissionGranted = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED
         val permissionRequest : MutableList<String> = ArrayList()
@@ -95,8 +102,6 @@ class Bluetooth_activity : AppCompatActivity(){
         if(!isBluetoothPermissionGranted){
             permissionRequest.add(Manifest.permission.BLUETOOTH)
         }
-        else
-            bt = ArrayList(bluetoothAdapter!!.bondedDevices)
 
         if(!isBluetoothScanPermissionGranted){
             permissionRequest.add(Manifest.permission.BLUETOOTH_SCAN)
@@ -116,6 +121,7 @@ class Bluetooth_activity : AppCompatActivity(){
             permissionslauncher.launch(permissionRequest.toTypedArray())
         }
 
+
     }
     fun init(){
         bluetoothAdapter= BluetoothAdapter.getDefaultAdapter()
@@ -128,9 +134,9 @@ class Bluetooth_activity : AppCompatActivity(){
             permissions ->
             isBluetoothPermissionGranted = permissions[Manifest.permission.BLUETOOTH] ?:isBluetoothPermissionGranted
             isBluetoothScanPermissionGranted = permissions[Manifest.permission.BLUETOOTH_SCAN] ?:isBluetoothScanPermissionGranted
-//            isBluetoothAdvertisePermissionGranted = permissions[Manifest.permission.BLUETOOTH_ADVERTISE] ?:isBluetoothAdvertisePermissionGranted
+            isBluetoothAdvertisePermissionGranted = permissions[Manifest.permission.BLUETOOTH_ADVERTISE] ?:isBluetoothAdvertisePermissionGranted
             isBluetoothConnectPermissionGranted = permissions[Manifest.permission.BLUETOOTH_CONNECT] ?:isBluetoothConnectPermissionGranted
-
+//            isBackgroundLocationPermissionGranted =permissions[Manifest.permission.ACCESS_BACKGROUND_LOCATION] ?:isBackgroundLocationPermissionGranted
             isFineLocationPermissionGranted =permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?:isFineLocationPermissionGranted
             isCoarseLocationPermissionGranted =permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?:isCoarseLocationPermissionGranted
 
@@ -139,7 +145,6 @@ class Bluetooth_activity : AppCompatActivity(){
 
     }
     private fun scan_for_bluetooth() {
-
         if(bluetoothAdapter==null)
         {
             Toast.makeText(this,"This device doesn't supports Bluetooth", Toast.LENGTH_LONG).show()
@@ -148,6 +153,8 @@ class Bluetooth_activity : AppCompatActivity(){
 
         if(!bluetoothAdapter!!.isEnabled){
             startActivityForResult(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),REQUEST_ENABLE_BT)
+
+
         }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -160,11 +167,46 @@ class Bluetooth_activity : AppCompatActivity(){
             R.id.scan ->{
                 progressBar!!.visibility=View.VISIBLE
                 recyclerView!!.visibility=View.GONE
-                scan_for_devices()
+                CoroutineScope(Dispatchers.Main).launch {
+                    async {
+                        scan_for_devices()
+                    }.await()
+                }
             }
 
         }
         return super.onOptionsItemSelected(item)
+    }
+//    fun relaunchActivity(){
+//        finish()
+//        startActivity(getIntent())
+//    }
+    fun statusCheck() {
+        val manager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps()
+        }
+    }
+
+    private fun buildAlertMessageNoGps() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Your Location seems to be disabled, Please Enable it!")
+            .setCancelable(false)
+            .setPositiveButton(
+                "Yes"
+            ) { dialog, id -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+
+            }
+            .setNegativeButton(
+                "No"
+            ) { dialog, id ->
+                Toast.makeText(this@Bluetooth_activity,"Can't Scan Bluetooth Devices as Location is disabled!",Toast.LENGTH_SHORT).show()
+
+                dialog.cancel()
+            }
+        val alert = builder.create()
+        alert.show()
+
     }
 //    fun checkPermission() {
 //        val t = object : Thread() {
@@ -278,11 +320,36 @@ class Bluetooth_activity : AppCompatActivity(){
 //    fun check_bluetooth_permissions() : Boolean{
 //        return (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED)
 //    }
-    private fun scan_for_devices(){
+    private suspend fun scan_for_devices(){
+    statusCheck()
+    if(bt.size==0)
+        bt = ArrayList(bluetoothAdapter!!.bondedDevices)
 
     var intentFilter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        registerReceiver(myReceiver,intentFilter)
-        bluetoothAdapter!!.startDiscovery()
+    isrecieverRegistered=true
+    var c = CoroutineScope(Dispatchers.IO).launch {
+
+            registerReceiver(myReceiver, intentFilter)
+            bluetoothAdapter!!.startDiscovery()
+            delay(10000)
+        }
+    c.start()
+    c.join()
+    when(c.isCompleted) {
+        true -> {
+
+            recyclerView!!.visibility = View.VISIBLE
+            progressBar!!.visibility = View.GONE
+        }
+        else ->{
+            if (isrecieverRegistered)
+                unregisterReceiver(myReceiver)
+            Toast.makeText(this@Bluetooth_activity,"No Bluetooth Device Found",Toast.LENGTH_SHORT).show()
+            recyclerView!!.visibility = View.VISIBLE
+            progressBar!!.visibility = View.GONE
+        }
+
+    }
 
     }
 //

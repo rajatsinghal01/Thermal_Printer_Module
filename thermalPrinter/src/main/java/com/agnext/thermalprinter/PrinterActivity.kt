@@ -105,8 +105,10 @@ class PrinterActivity : AppCompatActivity() {
                     ) {
                         bluetoothAdapter!!.disable()
                     }
+                    button_print!!.isEnabled=false
                     editor!!.clear()
                     editor!!.apply()
+
                     if (ActivityCompat.checkSelfPermission(
                             this@PrinterActivity,
                             Manifest.permission.BLUETOOTH_CONNECT
@@ -185,10 +187,9 @@ class PrinterActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode== RESULT_OK && requestCode==REQUEST_CONNECT && shpref!!.getBoolean("flag",false)==true ) {
-            connected = true
-            button_connect!!.text = "Disconnect"
             device = bluetoothAdapter!!.getRemoteDevice(shpref!!.getString("Printer_Address","")!!)
             printer_name!!.text = device!!.name.toString()
+            printer_connection_status!!.setText("Connecting")
             connecttoBluetooth()
 
         }
@@ -229,6 +230,8 @@ class PrinterActivity : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             printer_connection_status!!.setText("")
             printer_connection_status!!.setText("Connected")
+            connected = true
+            button_connect!!.text = "Disconnect"
             button_print!!.isEnabled=true
             Toast.makeText(this@PrinterActivity,"Printer Connected",Toast.LENGTH_SHORT)
         }

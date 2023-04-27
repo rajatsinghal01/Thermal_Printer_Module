@@ -1,0 +1,4 @@
+# Project exclude paths
+/.gradle/
+/thermalPrinter/build/
+/thermalPrinter/build/intermediates/javac/debug/classes/
