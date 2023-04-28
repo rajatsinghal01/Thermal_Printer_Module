@@ -17,5 +17,5 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.rajatsinghal01:Thermal_Printer_Module:1.0.0'
+	        implementation 'com.github.rajatsinghal01:Thermal_Printer_Module:1.0.1'
 	}
