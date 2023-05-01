@@ -58,6 +58,8 @@ class Bluetooth_activity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bluetooth)
         init()
+        progressBar!!.visibility=View.VISIBLE
+        recyclerView!!.visibility=View.GONE
         scan_for_bluetooth()
         bt = ArrayList(bluetoothAdapter!!.bondedDevices)
         CoroutineScope(Dispatchers.Main).launch {
