@@ -153,8 +153,6 @@ class Bluetooth_activity : AppCompatActivity(){
 
         if(!bluetoothAdapter!!.isEnabled){
             startActivityForResult(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),REQUEST_ENABLE_BT)
-
-
         }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -337,9 +335,21 @@ class Bluetooth_activity : AppCompatActivity(){
     c.join()
     when(c.isCompleted) {
         true -> {
-
             recyclerView!!.visibility = View.VISIBLE
             progressBar!!.visibility = View.GONE
+            if(bt.size==0){
+                scan_for_bluetooth()
+                bt = ArrayList(bluetoothAdapter!!.bondedDevices)
+                CoroutineScope(Dispatchers.Main).launch {
+                    async {
+                        scan_for_devices()
+                    }.await()
+                }
+                set=HashSet(bt)
+                adapter = BluetoothConnectAdapter(this,bt!!)
+                recyclerView!!.layoutManager=LinearLayoutManager(this)
+                recyclerView!!.adapter=adapter
+            }
         }
         else ->{
             if (isrecieverRegistered)
